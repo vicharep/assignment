@@ -1,0 +1,16 @@
+<h1>Employees</h1>
+
+<div>
+    <div>
+        <input type="text" placeholder="Enter employee's first name" #newfname>
+        <input type="text" placeholder="Enter employee's last name" #newlname>
+        <label for="deps">Select a Department</label>
+        <select id="depList" #depSelect></select>
+        <button type="submit" (click)="addEmployee(newfname, newlname, depSelect)">Add new employee</button>
+    </div>
+    <div>
+        <ul id="employee">
+        </ul>
+    </div>
+</div>
+
