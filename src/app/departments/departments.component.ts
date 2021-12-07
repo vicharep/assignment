@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { DepartmentsService } from '../shared/departments.service';
-//import { DepartmentModel } from './department.model';
+import { DepartmentModel } from './department.model';
 
 @Component({
   selector: 'app-departments',
@@ -9,19 +10,33 @@ import { DepartmentsService } from '../shared/departments.service';
 })
 export class DepartmentsComponent implements OnInit {
 
-  //newDepartment: string ="";
+  @ViewChild('newDepartment')
+  newItem!: ElementRef; 
 
-  constructor(private depService: DepartmentsService) {}
+  dlist: DepartmentModel[] = [];
 
-  ngOnInit(): void {   
+  constructor(private depService: DepartmentsService,
+              private route: Router) {}
+
+  ngOnInit(){
+    this.dlist = this.depService.getDepartments();
+    this.depService.departmentsChanged.subscribe(
+      (departList: DepartmentModel[]) => {
+        this.dlist = departList;
+      });
+  } 
+
+  deleteDep(d:number){
+    this.depService.delDep(d);
   }
 
-  ngOnChanges(){
-    this.depService.updDepartList();
-   }
+  addItem(){
+    const item = this.newItem.nativeElement.value;
+    this.depService.addDepartments(item);
+  }
 
-  addDepartment(newDep: HTMLInputElement){
-    this.depService.addDep(newDep.value);
+  editDepartment(i:number){
+    this.route.navigate(['edit-department', i]);
   }
 
 }

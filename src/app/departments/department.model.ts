@@ -1,4 +1,7 @@
-export interface DepartmentModel{
-    id: number;
-    name: string;
+export class DepartmentModel{
+   
+   constructor(public name:string){}
+   
 }
+
+

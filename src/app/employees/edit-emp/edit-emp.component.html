@@ -1,11 +1,25 @@
 <h1>Edit Employee</h1>
 <div>
+    <form>
+        <div>
+            <label for="fname">FirstName</label>
+             <input type="text" id="fname" name="fname" #editedfname placeholder="">
+        </div>
+        <div>
+            <label for="lname">LastName</label>
+            <input type="text" id="lname" name="lname" #editedlname>
+        </div>
+        <div>
+            <label for="depart">Select a department</label>
+            <select (change)="editeddpmt($event)">
+                <option value="default"></option>
+                <option *ngFor="let m of dlist, let i=index" [value]="m.name">
+                    {{ m.name }}
+                </option>
+            </select>
+        </div>
+    </form>
     <div>
-        <input type="text" name="empName" #editedfname [(ngModel)]="editedfname">
-        <input type="text" name="empName" #editedlname [(ngModel)]="editedlname">
-        <div #departList></div>
-    </div>
-    <div>
-        <button (click)="editEmployee(editedfname, editedlname)">Save changes</button>
+        <button (click)="editEmployee()">Save changes</button>
     </div>
 </div>    

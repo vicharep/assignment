@@ -1,9 +1,10 @@
 <h1>Edit Department</h1>
 <div>
+    <form>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="depName" #editedName>
+    </form>
     <div>
-        <input type="text" name="depName" #editedName [(ngModel)]="depName">
+        <button (click)="editDepartment()">Save changes</button>
     </div>
-    <div>
-        <button (click)="editDepartment(editedName)">Save changes</button>
-    </div>
-</div>
+</div> 

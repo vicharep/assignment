@@ -1,15 +1,44 @@
 <h1>Employees</h1>
 
 <div>
+    <form>
+        <div>
+            <label for="fname">
+                First Name
+            </label>
+            <input type="text" id="fname" placeholder="Enter employee's first name" #newfname>
+        </div>
+        <div>
+            <label for="lname">
+                Last Name
+            </label>
+            <input type="text" id="lname" placeholder="Enter employee's last name" #newlname>
+        </div>
+        <div>
+            <label for="depart">Select a Department</label>
+            <select (change)="update($event)">
+                <option value="default"></option>
+                <option *ngFor="let m of dlist" [value]="m.name">
+                    {{ m.name }}
+                </option>
+            </select>
+        </div>
+        <div>
+            <button type="submit" (click)="addEmployee()">Add new employee</button> 
+        </div>
+    
+    </form>
+    <br>
     <div>
-        <input type="text" placeholder="Enter employee's first name" #newfname>
-        <input type="text" placeholder="Enter employee's last name" #newlname>
-        <label for="deps">Select a Department</label>
-        <select id="depList" #depSelect></select>
-        <button type="submit" (click)="addEmployee(newfname, newlname, depSelect)">Add new employee</button>
-    </div>
-    <div>
-        <ul id="employee">
+        <h2>List of Employees</h2>
+        <ul>
+            <a 
+                *ngFor="let n of emList, let i= index">  
+                {{ n.firstName }} {{ n.lastName}} {{ n.department}}
+                <button (click)="editEmp(i)">Edit</button>
+                <button (click)="deleteEmp(i)">Delete</button>
+                <br>
+            </a>
         </ul>
     </div>
 </div>

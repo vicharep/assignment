@@ -1,7 +1,7 @@
-export interface EmployeeModel{
-    empId: number;
-    firstName: string;
-    lastName: string;
-    department: string;
+export class EmployeeModel{
 
-}
+    constructor(public firstName: string,
+                public lastName: string,
+                public department: string,  
+    ){}
+}  

@@ -3,6 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeesService } from 'src/app/shared/employees.service';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
+import { DepartmentModel } from 'src/app/departments/department.model';
+import { DepartmentsService } from 'src/app/shared/departments.service';
+import { EmployeeModel } from '../employee.model';
 
 @Component({
   selector: 'app-edit-emp',
@@ -11,60 +14,42 @@ import { ElementRef } from '@angular/core';
 })
 export class EditEmpComponent implements OnInit {
 
-  @ViewChild('departList', { static: true })
-  departmentList!: ElementRef;
+  // @ViewChild('departList', { static: true })
+  // departmentList!: ElementRef;
 
-  ngAfterViewInit(){
-    
-  }
+  dlist : DepartmentModel[] = [];
+  emplist : EmployeeModel[] = [];
 
+  ngAfterViewInit(){}
 
   constructor(private empService: EmployeesService,
+              private depService: DepartmentsService,
               private route: ActivatedRoute) { }
 
-  public empDetail: {
-    editedfname: string ,
-    editedlname: string
-  } = {
-    editedfname : '',
-    editedlname: ''
-  }
+  @ViewChild('editedfname')
+  edtdfname!: ElementRef;
 
-  
+  @ViewChild('editedlname')
+  edtdlname!: ElementRef;
 
+  selectedDepart : string = '';
+  fixedDpmt: string = '';
 
   ngOnInit(): void {
-
-    this.empService.updDepartOptions();
-
-    var empid : number = +this.route.snapshot.params['id'];
-      this.empDetail.editedfname = this.empService.empList[empid].firstName;
-      this.empDetail.editedlname = this.empService.empList[empid].lastName;
+    this.dlist = this.depService.getDepartments();
   }
 
-  editEmployee( fname: HTMLInputElement, lname: HTMLInputElement){
+  editeddpmt(a:any){
+    this.selectedDepart= a.target.value;
+  }
 
+  editEmployee(){
+    this.fixedDpmt = this.selectedDepart;
     var empid =  +this.route.snapshot.params['id'];
-    var a = this.departmentList.nativeElement.selectedValue;
-    //var a = (<HTMLInputElement>document.getElementById('departList')).value;
-    this.empService.saveEditedEmpl(empid, fname.value, lname.value,a)
-
-   // var selectEle = document.querySelector('#depSelec');
-   // var output = selectEle!.ariaValueNow;
-
-   //var ddown = document.getElementsByName("depSelec");
-
-   //let i:number = 0;
-   //for (i= 0; i < ddown.length; i++) {
-   //  sdvalues.push(ddown[i].options[ddown[i].selectedIndex].value);
-   //}
-
-   //var selDep= document.getElementById("depSelec");
-   //var selectedText = depSelec.options[depSelec.selectedIndex].innerHTML;
-   //var selectedValue = depSelec.value;
-
-    
-    //this.empService.saveEditedEmpl(empid, fname.value, lname.value, selectedValue);
+    const fname = this.edtdfname.nativeElement.value;
+    const lname = this.edtdlname.nativeElement.value;
+    const dept = this.fixedDpmt; 
+    this.empService.saveEditedEmpl( empid, fname, lname,dept);  
   }
 
 }

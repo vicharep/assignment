@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { DepartmentModel } from '../departments/department.model';
+import { DepartmentsService } from '../shared/departments.service';
 import { EmployeesService } from '../shared/employees.service';
 import { EmployeeModel } from './employee.model';
 
@@ -9,21 +12,41 @@ import { EmployeeModel } from './employee.model';
 })
 export class EmployeesComponent implements OnInit {
 
-  constructor(private empService : EmployeesService) { }
+  constructor(private empService : EmployeesService,
+              private depService : DepartmentsService,
+              private router: Router) { }
 
-  ngOnInit(): void { 
-    
+  emList : EmployeeModel[] = [];
+  dlist : DepartmentModel[] = [];
+  selecteddepart: string= '';
+
+    @ViewChild('newfname')
+  fname!: ElementRef;
+
+    @ViewChild('newlname')
+  lname!: ElementRef;
+
+  ngOnInit(): void {
+    this.dlist = this.depService.getDepartments();
+    this.emList = this.empService.getEmployees();
   }
 
-  ngOnChanges(): void{
-
-    document.getElementById('depList')!.innerHTML ;
+  update(e: any){
+    this.selecteddepart = e.target.value ;
   }
 
-  addEmployee(newfname:HTMLInputElement, newlname: HTMLInputElement, depSelect: HTMLInputElement){
-    this.empService.addEmpl( newfname.value, newlname.value, depSelect.value);
-  } 
+  editEmp(k:number){
+    this.router.navigate(['edit-emp', k]);
+  }
 
-  
+  deleteEmp(j:number){
+    this.empService.delEmp(j);
+  }
 
+  addEmployee(){
+    const fn = this.fname.nativeElement.value;
+    const ln = this.lname.nativeElement.value;
+    const dp = this.selecteddepart;
+    this.empService.addEmp(fn,ln,dp); 
+  }
 }

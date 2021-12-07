@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DepartmentsService } from 'src/app/shared/departments.service';
 
@@ -9,19 +9,20 @@ import { DepartmentsService } from 'src/app/shared/departments.service';
 })
 export class EditDepComponent implements OnInit {
   depId: number = 0;
-  depName: string = "";
+
+  @ViewChild('editedName')
+  editeddep!: ElementRef;
 
   constructor(private depService: DepartmentsService,
               private route: ActivatedRoute) { }
 
-
   ngOnInit(): void {
-     var depId = +this.route.snapshot.params['id'];
-     var depName = this.depService.departmentList[depId].name;
+     this.depId = +this.route.snapshot.params['id'];
   }
 
-  editDepartment(editedName: HTMLInputElement){
-    this.depService.saveEditedDep(this.depId, editedName.value );
+  editDepartment(){
+    const newdep = this.editeddep.nativeElement.value;
+    this.depService.saveEditedDep(this.depId,newdep);
   }
 
 }

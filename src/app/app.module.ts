@@ -7,9 +7,17 @@ import { DepartmentsComponent } from './departments/departments.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { EditDepComponent } from './departments/edit-dep/edit-dep.component';
 import { EditEmpComponent } from './employees/edit-emp/edit-emp.component';
+import { FormsModule } from '@angular/forms';
+
+import {MatSidenavModule} from '@angular/material/sidenav'
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from  '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [
+  declarations: [  
     AppComponent,
     DepartmentsComponent,
     EmployeesComponent,
@@ -18,8 +26,15 @@ import { EditEmpComponent } from './employees/edit-emp/edit-emp.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule
   ],
+  exports: [MatSidenavModule],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -1,12 +1,25 @@
 <h1>Departments</h1>
 
 <div>
+    <form>
+      <div>
+        <label for="name">Name</label>
+        <br>
+        <input type="text" id="name" placeholder="Enter new department name" #newDepartment >
+        <button type="submit" (click)="addItem()">Add</button>
+      </div>
+    </form>
+    <br>
     <div>
-        <input type="text" placeholder="Enter new department name" #newDepartment >
-        <button type="submit" (click)="addDepartment(newDepartment)">Add new department</button>
-    </div>
-    <div>
-        <ul id="department">
-        </ul>
+      <h2>List of Departments</h2>
+        <ul >
+            <a 
+              *ngFor="let dep of dlist, let k=index" >
+              {{ dep.name }} 
+            <button  (click)="editDepartment(k)">Edit</button>
+            <button (click)="deleteDep(k)">Delete</button>
+            <br>
+            </a>
+          </ul> 
     </div>
 </div>

@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { DepartmentModel } from '../departments/department.model';
 
 @Injectable({
@@ -9,37 +11,39 @@ export class DepartmentsService {
 
   constructor(private router: Router) { }
 
-  public  departmentList : DepartmentModel[]  = [
-    { id: 1, name: 'Finance' },
-    { id: 2, name: 'IT'},
-    { id: 3, name: 'HR'}
+   departmentList : DepartmentModel[]  = [
+    {  name: 'Finance' },
+    {  name: 'IT'},
+    {  name: 'HR'}   
    ];
 
-   updDepartList(){
-      let i: number;
-      let str:string = '';
+   departmentsChanged = new Subject<DepartmentModel[]>();
+   dep : DepartmentModel = { name: ''};
 
-      for(i=0; i < this.departmentList.length; i++ ){
-        str += '<li>' + this.departmentList[i].name  + '</li>' + '<button (click)="editDep(i)">Edit</button>';
-      }
-      let st: any = document.getElementById('department');
-      st.innerHTML = str;
-   }
-
-   addDep(newD:string){
-      let idDep = this.departmentList[this.departmentList.length-1].id;
-      this.departmentList.push({ id: ++idDep, name: newD});
+   getDepartments(): DepartmentModel[]{
+     return this.departmentList;
    }
 
    editDep(i:number){
      this.router.navigate(['edit-department', i]);
    }
 
-   saveEditedDep(j:number, n:string){
-      this.departmentList[j].name = n;
+   saveEditedDep(m:number,n:string){
+      var savedep = { name: n};
+      this.departmentList[m] = savedep;
       alert('Changes saved successfully');
       this.router.navigate(['departments']);
-
    }
+
+   delDep(d:number){
+     this.departmentList.splice(d,1);
+     this.router.navigate(['departments']);
+   }
+
+   addDepartments(deps: string) {
+   var depps = {name: deps};
+    this.departmentList.push(depps);
+   this.departmentsChanged.next(this.departmentList.slice());
+  }
   
 }
